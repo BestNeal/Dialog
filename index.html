@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />	
+		<meta name="apple-mobile-web-app-capable" content="yes" /><!--删除默认的苹果工具栏和菜单栏-->
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" /><!--  若值为“black-translucent”将会占据页面px位置，浮在页面上方（会覆盖页面20px高度–iphone4和itouch4的Retina屏幕为40px）-->
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><!-- apple-mobile-web-app-capable和apple-mobile-web-app-status-bar-style，这两个会让网页内容以应用程序风格显示，并使状态栏透明 -->
+		<meta name="format-detection"  content="telephone=no,email=no"/><!-- 忽略页面中的数字识别为电话,忽略email识别为电子邮件  -->
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/Dialog.css"/>
+		<style type="text/css">
+			html,body{
+				margin: 0;
+				padding: 0;
+				font-size: 62.5%;
+			}
+			button{
+				display: block;
+				margin: 10px 0;
+			}
+		</style>
+	</head>
+	<body>
+		<!--<div class="g-dialog-container">
+			<div class="dialog-window">
+				<div class="dialog-header loading"></div>
+				<div class="dialog-content">
+					您是否需要进行删除操作？
+				</div>
+				<div class="dialog-footer">
+					<button class="green">确定</button>
+					<button class="cancel">取消</button>
+				</div>
+			</div>
+		</div>-->
+		<button id="btn1">没有传递任何参数</button>
+		<button id="btn2">弹出一个不带任何按钮，且是警告框,并且2s后自动关闭</button>
+		<button id="btn3">弹出一个有确认和取消按钮的成功框,点击按钮直接关闭</button>
+		<button id="btn4">弹出一个有确认按钮的警告框,点击按钮不关闭(需手动关闭)</button>
+		<button id="btn5">弹出一个多组合的按钮框,且按钮样式可定制</button>
+		<button id="btn6">弹出一个确认和删除的框,点击确认弹出加载框2s自动关闭,点击删除按钮把上一次框关闭</button>
+	</body>
+	
+	<script src="js/jquery-2.1.4.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/dialog.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		$('#btn1').tap(function(){
+			var d = new Dialog();
+		})
+		$('#btn2').tap(function(){
+			var d = new Dialog({
+				type:"warning",
+				message:'2s后关闭',
+				delay:2000,
+				effect:true,
+				dialogOpacity:0.4,
+			});
+		})	
+		$('#btn3').tap(function(){
+			var d = new Dialog({
+				type:"warning",
+				message:'点击按钮关闭',
+				buttons:[
+					{
+						text:"确认"	
+					},
+					{
+						text:"取消"	
+					}
+				]
+			});
+		})
+		$('#btn4').tap(function(){
+			var d = new Dialog({
+				type:"warning",
+				message:'警告框',
+				buttons:[
+					{
+						type:'red',
+						text:"确认",
+						callback:function(){
+							//code
+							return false;
+						}
+					}
+				]
+			});
+		})
+		$('#btn5').tap(function(){
+			var d = new Dialog({
+				type:"loading",
+				message:'多组合的按钮框',
+				buttons:[
+					{
+						type:'red',
+						text:"确认",
+						callback:function(){
+							//code
+							alert('不会自动关闭')
+							return false;
+						}
+					},
+					{
+						type:'green',
+						text:"取消",
+						callback:function(){
+							//code
+						}
+					}
+				]
+			});
+		})
+		$('#btn6').tap(function(){
+			var btn6 = new Dialog({
+				type:"warning",
+				message:'按钮6',
+				buttons:[
+					{
+						type:'green',
+						text:"确认",
+						callback:function(){
+							var a = new Dialog({
+								type:"loading",
+								delay:2000
+							});
+						}
+					},
+					{
+						type:'red',
+						text:"删除",
+						callback:function(){
+							$.dialog({
+								type:'ok',
+								message:'删除2',
+								buttons:[
+									{
+										type:'green',
+										text:'删除上一个弹出层,5s后关闭',
+										callback:function(){
+											btn6.close();
+											return false;
+										}
+									}
+								],
+								delay:5000
+							})
+							
+							return false;
+						}
+					}
+				]
+			});
+		})
+	</script>
+	<script type="text/javascript">
+		/*var n = new Dialog({
+			width:'auto',//对话框的宽
+			height:'auto',//对话框的高
+			message:'测试',//对话框提示信息
+			type:"waring",//对话框的类型
+			buttons:[//按钮配置
+				{
+					type:"red",
+					text:"删除",
+					callback:function(){
+						alert(1);
+						return false; 	//如果是false 就不关闭弹出层
+					}
+				},
+				{
+					type:"cancel",
+					text:"取消",
+//					callback:function(){
+//						
+//					}
+				}
+			],
+			delay:2500,//弹出框延迟关闭,默认为毫秒
+			callback:function(){//回调函数 可以根据delay的延迟来进行执行事件
+				
+			},
+			maskOpacity:0.2,//对话框背景遮罩层透明度
+			dialogOpacity:0.2,//对话框透明度
+			effect:true//动画
+		});*/
+	</script>
+</html>
